@@ -1,5 +1,5 @@
 # AWS-SQS-module
-**Module Usage:**
+**Module Usage:** <br />
 This module is used to create Simple Queue Service in AWS. 
 
 **Parameters:**
@@ -22,15 +22,15 @@ deduplication_scope | Specifies whether message deduplication occurs at the mess
 tags | A mapping of tags to assign to all resources | map(string) | {} | 
 
 
-**OPA Policies:**
+**OPA Policies:** <br />
 OPA policies are in opa-policies/AWS folder. 
 
-**Validate OPA policies:**
+**Validate OPA policies:** <br />
 terraform plan -out plan1
 terraform show -json plan1 > plan1.json 
 opa eval  --format pretty  -d opa/aws/ --input plan1.json "data.terraform.deny"
 
-**OPA validation scripts:**
+**OPA validation scripts:** <br />
 enforce_SQS_access_policies.rego: Makes sure that the policy attached to the SQS contains a Deny statement. 
 enforce_SQS_encryption.rego: Makes sure that the policy kms_master_key_id is not null. which means server side encryption enabled. 
 enforce_SQS_tags.rego: Makes sure that the required organization tags are in place
