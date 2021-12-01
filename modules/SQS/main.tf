@@ -7,11 +7,11 @@ data "aws_iam_policy_document" "SQS_Allow_policy" {
     sid     = "DenyAllAccess"
     effect  = "Deny"
     actions = ["SQS:SendMessage", "SQS:ReceiveMessage"]
-    principals  {
-      type="*"
-      identifiers=["*"]
+    principals {
+      type        = "*"
+      identifiers = ["*"]
     }
-     resources = local.arn_name
+    resources = local.arn_name
   }
   dynamic "statement" {
     for_each = var.policy
@@ -19,13 +19,13 @@ data "aws_iam_policy_document" "SQS_Allow_policy" {
       sid     = "Allow_Access_${statement.key}"
       effect  = statement.value.effect
       actions = tolist(statement.value.actions)
-      
+
       principals {
         type        = "AWS"
         identifiers = statement.value.principals
-        }
+      }
       resources = local.arn_name
-  }
+    }
 
   }
 }
@@ -34,13 +34,13 @@ data "aws_iam_policy_document" "Default_Policy" {
     sid     = "Default_Policy"
     effect  = "Allow"
     actions = ["SQS:*"]
-    principals  {
-      type="AWS"
-      identifiers=["${data.aws_caller_identity.current.arn}"]
+    principals {
+      type        = "AWS"
+      identifiers = ["${data.aws_caller_identity.current.arn}"]
     }
-     resources = local.arn_name
+    resources = local.arn_name
   }
- 
+
 }
 resource "aws_sqs_queue" "sqs_queue_name" {
 
@@ -52,7 +52,7 @@ resource "aws_sqs_queue" "sqs_queue_name" {
   max_message_size            = var.max_message_size
   delay_seconds               = var.delay_seconds
   receive_wait_time_seconds   = var.receive_wait_time_seconds
-  policy                      = length(var.policy) > 0 ? data.aws_iam_policy_document.SQS_Allow_policy.json: data.aws_iam_policy_document.Default_Policy.json
+  policy                      = length(var.policy) > 0 ? data.aws_iam_policy_document.SQS_Allow_policy.json : data.aws_iam_policy_document.Default_Policy.json
   redrive_policy              = var.redrive_policy
   fifo_queue                  = var.fifo_queue
   content_based_deduplication = var.content_based_deduplication

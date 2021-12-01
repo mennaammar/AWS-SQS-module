@@ -1,5 +1,5 @@
-locals{
-  arn_name= ["arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${var.name}"]
+locals {
+  arn_name = ["arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:${var.name}"]
 
 }
 
@@ -43,7 +43,7 @@ variable "receive_wait_time_seconds" {
 
 variable "policy" {
   description = "The JSON access policy for the SQS queue"
-  type        = list
+  type        = list(any)
   default     = []
 }
 

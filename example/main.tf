@@ -25,22 +25,22 @@ data "aws_caller_identity" "current" {}
 module "SQS" {
   source = "../modules/SQS"
 
-  name = local.SQS_name
+  name              = local.SQS_name
   kms_master_key_id = "alias/aws/sqs"
   policy = [
-  {
-    effect    = "Allow"
-    actions   = ["SQS:SendMessage", "SQS:ReceiveMessage"]
-    principals = ["arn:aws:iam::xxxxxxxxx:root"]
-   }
-   ,
-  {
-    effect    = "Allow"
-    actions    = ["SQS:ReceiveMessage"]
-    principals = ["arn:aws:iam::xxxxxxxxx:user/menna"]
+    {
+      effect     = "Allow"
+      actions    = ["SQS:SendMessage", "SQS:ReceiveMessage"]
+      principals = ["arn:aws:iam::xxxxxxxxx:root"]
+    }
+    ,
+    {
+      effect     = "Allow"
+      actions    = ["SQS:ReceiveMessage"]
+      principals = ["arn:aws:iam::xxxxxxxxx:user/menna"]
 
 
-  }
-]
+    }
+  ]
   tags = local.tags
 }
