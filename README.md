@@ -26,11 +26,11 @@ tags | A mapping of tags to assign to all resources | map(string) | {} |
 OPA policies are in opa-policies/AWS folder. 
 
 **Validate OPA policies:** <br />
-terraform plan -out plan1
-terraform show -json plan1 > plan1.json 
-opa eval  --format pretty  -d opa/aws/ --input plan1.json "data.terraform.deny"
+terraform plan -out plan1 <br />
+terraform show -json plan1 > plan1.json <br />
+opa eval  --format pretty  -d opa/aws/ --input plan1.json "data.terraform.deny" <br />
 
 **OPA validation scripts:** <br />
-enforce_SQS_access_policies.rego: Makes sure that the policy attached to the SQS contains a Deny statement. 
-enforce_SQS_encryption.rego: Makes sure that the policy kms_master_key_id is not null. which means server side encryption enabled. 
-enforce_SQS_tags.rego: Makes sure that the required organization tags are in place
+- enforce_SQS_access_policies.rego: Makes sure that the policy attached to the SQS contains a Deny statement. 
+- enforce_SQS_encryption.rego: Makes sure that the policy kms_master_key_id is not null. which means server side encryption enabled. 
+- enforce_SQS_tags.rego: Makes sure that the required organization tags are in place
